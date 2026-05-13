@@ -17,17 +17,10 @@
 	"entrypoints": {
 		"main": [
 			"com.mordorselite.ConsistentEnderPearls"
-		],
-		"client": [
-			"com.mordorselite.client.ConsistentEnderPearlsClient"
 		]
 	},
 	"mixins": [
-		"consistent-ender-pearls.mixins.json",
-		{
-			"config": "consistent-ender-pearls.client.mixins.json",
-			"environment": "client"
-		}
+		"consistent-ender-pearls.mixins.json"
 	],
 	"depends": {
 		"fabricloader": ">=0.19.2",
