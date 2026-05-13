@@ -3,7 +3,7 @@
 	"package": "com.mordorselite.mixin",
 	"compatibilityLevel": "JAVA_25",
 	"mixins": [
-		"ExampleMixin"
+		"WorldEntityProjectileProjectileMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
