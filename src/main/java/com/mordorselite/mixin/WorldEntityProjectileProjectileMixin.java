@@ -1,25 +1,30 @@
 package com.mordorselite.mixin;
 
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.throwableitemprojectile.ThrownEnderpearl;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.Vec3;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
-import org.spongepowered.asm.mixin.injection.Redirect;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 
 @Mixin(Projectile.class)
 public class WorldEntityProjectileProjectileMixin {
 
-    @Inject(
+    @WrapOperation(
         method = "shoot",
-        at = @At(value = "INVOKE")
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/entity/projectile/Projectile;getMovementToShoot(DDDFF)Lnet/minecraft/world/phys/Vec3;"
+        )
     )
-    private static void removeEnderpearlUncertainty(final double xd, final double yd, final double zd, final float pow, final float uncertainty, CallbackInfo ci) {
-        double neverUsed = xd + yd;
+    private Vec3 removeEnderpearlUncertainty(Projectile instance, double xd, double yd, double zd, float pow, float uncertainty, Operation<Vec3> original) {
+        if (instance instanceof ThrownEnderpearl) {
+            uncertainty = 0.0F;
+        }
+        return original.call(instance, xd, yd, zd, pow, uncertainty);
     }
+
 }
